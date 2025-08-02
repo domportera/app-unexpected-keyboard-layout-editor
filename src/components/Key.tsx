@@ -19,6 +19,31 @@ export interface KeyProps {
 
 /** A single key on the keyboard that supports editing */
 export function Key(props: KeyProps) {
+    // Flip helpers
+    const handleFlipHorizontal = () => {
+        const flipped: KeyData = {
+            ...props.keyData,
+            nw: props.keyData.ne,
+            ne: props.keyData.nw,
+            sw: props.keyData.se,
+            se: props.keyData.sw,
+            w: props.keyData.e,
+            e: props.keyData.w,
+        };
+        props.updateKey(flipped);
+    };
+    const handleFlipVertical = () => {
+        const flipped: KeyData = {
+            ...props.keyData,
+            nw: props.keyData.sw,
+            sw: props.keyData.nw,
+            ne: props.keyData.se,
+            se: props.keyData.ne,
+            n: props.keyData.s,
+            s: props.keyData.n,
+        };
+        props.updateKey(flipped);
+    };
     const [dialogOpen, setDialogOpen] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [menuPos, setMenuPos] = useState<{x: number, y: number} | null>(null);
@@ -181,6 +206,26 @@ export function Key(props: KeyProps) {
                         }}
                     >
                         Paste to
+                    </button>
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(false);
+                            handleFlipHorizontal();
+                        }}
+                    >
+                        Flip horizontal
+                    </button>
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(false);
+                            handleFlipVertical();
+                        }}
+                    >
+                        Flip vertical
                     </button>
                 </div>
             )}
