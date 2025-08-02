@@ -55,6 +55,26 @@ export function Key(props: KeyProps) {
         [props.keyboardData],
     );
 
+    // Key clipboard helpers
+    const KEY_CLIPBOARD_KEY = "ukeyboard_key_clipboard";
+    const handleCopy = () => {
+        try {
+            localStorage.setItem(KEY_CLIPBOARD_KEY, JSON.stringify(props.keyData));
+        } catch {}
+    };
+    const handlePaste = () => {
+        try {
+            const data = localStorage.getItem(KEY_CLIPBOARD_KEY);
+            if (data) {
+                const parsed = JSON.parse(data);
+                // Only paste if parsed is an object
+                if (parsed && typeof parsed === "object") {
+                    props.updateKey(parsed);
+                }
+            }
+        } catch {}
+    };
+
     return (
         <>
             <button
@@ -121,15 +141,14 @@ export function Key(props: KeyProps) {
             </button>
             {showMenu && menuPos && (
                 <div
+                    class="dropdown-menu show p-0 border-0 shadow"
                     style={{
                         position: "fixed",
                         top: menuPos.y,
                         left: menuPos.x,
-                        background: "white",
-                        border: "1px solid #ccc",
                         zIndex: 1000,
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                         minWidth: "140px",
+                        pointerEvents: "auto",
                     }}
                     onClick={() => setShowMenu(false)}
                 >
@@ -142,6 +161,26 @@ export function Key(props: KeyProps) {
                         }}
                     >
                         Insert key before
+                    </button>
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(false);
+                            handleCopy();
+                        }}
+                    >
+                        Copy from
+                    </button>
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(false);
+                            handlePaste();
+                        }}
+                    >
+                        Paste to
                     </button>
                 </div>
             )}
