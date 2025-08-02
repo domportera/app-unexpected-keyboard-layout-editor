@@ -1,7 +1,8 @@
-import { useMemo, useState, useRef, useEffect} from "preact/hooks";
+import { useMemo, useState, useRef, useEffect } from "preact/hooks";
 import { KeyData, KeyboardData, getKeyboardWidth } from "../lib/data";
 import { KeyDialog } from "./KeyDialog";
 import { KeyLegend } from "./KeyLegend";
+import { useNumberModal } from "./useNumberModal";
 
 /** Props for the Key component */
 export interface KeyProps {
@@ -146,6 +147,19 @@ export function Key(props: KeyProps) {
         } catch {}
     };
 
+    // Set Key Width modal logic using useNumberModal
+    const widthModal = useNumberModal({
+        title: "Set Key Width",
+        label: "Key width as a percent of a normal key",
+        min: 11,
+        step: 1,
+        unit: "%",
+        helpText: "Minimum: 11%",
+        initialValue: Math.round((props.keyData.width || 1) * 100),
+        onSave: (val) => props.updateKey({ ...props.keyData, width: val / 100 }),
+    });
+    const handleSetKeyWidth = () => widthModal.open(Math.round((props.keyData.width || 1) * 100));
+
     return (
         <>
             <button
@@ -258,6 +272,16 @@ export function Key(props: KeyProps) {
                         onClick={e => {
                             e.stopPropagation();
                             setContextMenuOpen(false);
+                            handleSetKeyWidth();
+                        }}
+                    >
+                        Set Key Width
+                    </button>
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setContextMenuOpen(false);
                             handleFlipHorizontal();
                         }}
                     >
@@ -303,6 +327,7 @@ export function Key(props: KeyProps) {
                     onClose={() => setDialogOpen(false)}
                 />
             )}
+            {widthModal.modal}
         </>
     );
 }
