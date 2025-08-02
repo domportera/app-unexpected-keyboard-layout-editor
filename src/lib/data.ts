@@ -193,7 +193,7 @@ export function toXmlKeyboard(data: KeyboardData): XmlKeyboard {
                     shift: row.shift !== 0 ? row.shift : undefined,
                 },
                 key: row.keys.map((key) => {
-                    // Compare by value with a default key
+                    // Compare to blank key
                     const blankKey = newKey();
                     // Shallow compare all properties
                     const isBlank = Object.keys(blankKey).every(
@@ -242,6 +242,12 @@ export function fromXmlKeyboard(xml: XmlKeyboard): KeyboardData {
         const v = parseFloat(value);
         if (isNaN(v)) return undefined;
         return v;
+    }
+    function toBool(val: any, defaultValue = true): boolean {
+        if (val === undefined) return defaultValue;
+        if (typeof val === "boolean") return val;
+        if (typeof val === "string") return val.toLowerCase() === "true";
+        return Boolean(val);
     }
 
     return {
@@ -292,7 +298,8 @@ export function fromXmlKeyboard(xml: XmlKeyboard): KeyboardData {
                 return keyObj;
             }),
         })),
-        bottomRow: xml.keyboard.$?.bottom_row ?? true,
+        // Respect both bottom_row and bottomRow, defaulting to true only if both are undefined
+        bottomRow: toBool(xml.keyboard.$?.bottom_row ?? xml.keyboard.$?.bottomRow, true),
         width: xml.keyboard.$?.width,
     };
 }
