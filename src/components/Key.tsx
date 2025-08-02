@@ -19,6 +19,25 @@ export interface KeyProps {
 
 /** A single key on the keyboard that supports editing */
 export function Key(props: KeyProps) {
+    // Context menu open/close logic
+    import { useRef, useEffect } from "preact/hooks";
+    const contextMenuRef = useRef<HTMLDivElement>(null);
+    const [contextMenuOpen, setContextMenuOpen] = useState(false);
+
+    useEffect(() => {
+        if (!contextMenuOpen) return;
+        const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+            if (contextMenuRef.current && !(contextMenuRef.current as any).contains(e.target)) {
+                setContextMenuOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleOutsideClick);
+        document.addEventListener("touchstart", handleOutsideClick);
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+            document.removeEventListener("touchstart", handleOutsideClick);
+        };
+    }, [contextMenuOpen]);
     // Rotate helpers
     const handleRotateCW = () => {
         props.updateKey({
@@ -72,7 +91,6 @@ export function Key(props: KeyProps) {
         props.updateKey(flipped);
     };
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [showMenu, setShowMenu] = useState(false);
     const [menuPos, setMenuPos] = useState<{x: number, y: number} | null>(null);
 
     // For mobile long-press
@@ -89,7 +107,7 @@ export function Key(props: KeyProps) {
             y = e.clientY;
         }
         setMenuPos({ x, y });
-        setShowMenu(true);
+        setContextMenuOpen(true);
     };
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -191,8 +209,9 @@ export function Key(props: KeyProps) {
                     />
                 )}
             </button>
-            {showMenu && menuPos && (
+            {contextMenuOpen && menuPos && (
                 <div
+                    ref={contextMenuRef}
                     class="dropdown-menu show p-0 border-0 shadow"
                     style={{
                         position: "fixed",
@@ -202,7 +221,6 @@ export function Key(props: KeyProps) {
                         minWidth: "140px",
                         pointerEvents: "auto",
                     }}
-                    onClick={() => setShowMenu(false)}
                 >
                     <button
                         class="dropdown-item w-100 text-start"
