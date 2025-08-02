@@ -247,6 +247,7 @@ export function Key(props: KeyProps) {
                     >
                         Insert key before
                     </button>
+                    <hr class="dropdown-divider" />
                     <button
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
@@ -277,6 +278,7 @@ export function Key(props: KeyProps) {
                     >
                         Set Key Width
                     </button>
+                    <hr class="dropdown-divider" />
                     <button
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
