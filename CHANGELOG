@@ -4,16 +4,16 @@
 ## [0.2.0]
 
 ### Added
-- Additional icons for keyboard legends, including clipboard, emoji, config, and more.
+- Additional icons for keys, including clipboard, emoji, config, and more.
 - Responsive design improvements for better usability on small screens.
 - Auto-focus and select text entry when clicking on a key region in the key popup.
 
 ### Changed
-- Improved keyboard legend icons for better clarity and consistency.
-- Improved XML import compatibility for legacy key field names.
+- Improved XML import compatibility for legacy and current key field names.
 - Made the output data based on non-legacy key names (cardinal directions)
 
 ### Technical/Internal
 - Updated codebase and sample layouts to use new key property names.
 - Updated Vite/Preact/Github Pages configurations.
 - 404 page for GitHub Pages SPA routing.
+
