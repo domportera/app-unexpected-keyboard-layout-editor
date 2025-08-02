@@ -3,8 +3,8 @@
     "description": "A tool for creating layouts for the Unexpected Keyboard for Android devices.",
     "version": "0.1.0",
     "author": {
-        "name": "Lixquid",
-        "url": "https://lixquid.com"
+        "name": "domportera",
+        "url": "https://domportera.github.io/app-unexpected-keyboard-layout-editor/"
     },
     "license": "MIT",
     "private": true,
