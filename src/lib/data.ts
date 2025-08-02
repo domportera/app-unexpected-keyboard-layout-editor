@@ -157,7 +157,7 @@ const xmlSchema = z.object({
                             n: z.string().optional(),
                             s: z.string().optional(),
                             slider: z.coerce.boolean().optional(),
-                        }),
+                        }).optional(),
                     }),
                 ),
             }),
