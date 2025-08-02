@@ -44,6 +44,10 @@ const legendIcons: Record<KeyLegendProps["legend"], string> = {
     switch_numeric: "123",
     meta: "x-diamond-fill",
     switch_emoji: "emoji-sunglasses-fill",
+    switch_back_emoji: "emoji-sunglasses",
+    switch_forward: "arrow-right-circle-fill",
+    switch_backward: "arrow-left-circle-fill",
+    switch_greekmath: "pi-fill",
     config: "gear-fill"
 };
 
