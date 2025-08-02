@@ -19,6 +19,33 @@ export interface KeyProps {
 
 /** A single key on the keyboard that supports editing */
 export function Key(props: KeyProps) {
+    // Rotate helpers
+    const handleRotateCW = () => {
+        props.updateKey({
+            ...props.keyData,
+            nw: props.keyData.sw,
+            w: props.keyData.nw,
+            sw: props.keyData.se,
+            s: props.keyData.e,
+            se: props.keyData.ne,
+            e: props.keyData.n,
+            ne: props.keyData.nw,
+            n: props.keyData.w,
+        });
+    };
+    const handleRotateCCW = () => {
+        props.updateKey({
+            ...props.keyData,
+            nw: props.keyData.ne,
+            w: props.keyData.nw,
+            sw: props.keyData.w,
+            s: props.keyData.se,
+            se: props.keyData.sw,
+            e: props.keyData.s,
+            ne: props.keyData.se,
+            n: props.keyData.e,
+        });
+    };
     // Flip helpers
     const handleFlipHorizontal = () => {
         const flipped: KeyData = {
@@ -226,6 +253,26 @@ export function Key(props: KeyProps) {
                         }}
                     >
                         Flip vertical
+                    </button>
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(false);
+                            handleRotateCW();
+                        }}
+                    >
+                        Rotate CW
+                    </button>
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(false);
+                            handleRotateCCW();
+                        }}
+                    >
+                        Rotate CCW
                     </button>
                 </div>
             )}
