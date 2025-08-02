@@ -1,8 +1,8 @@
-# [Unexpected Keyboard Layout Editor](https://unexpected-keyboard-layout-editor.lixquid.com)
+# [Unexpected Keyboard Layout Editor](https://github.com/domportera/app-unexpected-keyboard-layout-editor)
 
 A tool for creating and editing layouts for the Unexpected Keyboard for Android devices.
 
-https://unexpected-keyboard-layout-editor.lixquid.com
+Forked from [lixquid's repository](https://github.com/lixquid/app-unexpected-keyboard-layout-editor), whose live site can be viewed [here](https://unexpected-keyboard-layout-editor.lixquid.com)
 
 ## How to Use
 
