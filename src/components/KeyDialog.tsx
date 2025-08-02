@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useRef, useEffect } from "preact/hooks";
 import { KeyData } from "../lib/data";
 import { KeyInput } from "./KeyInput";
 import { KeyLegend } from "./KeyLegend";
@@ -16,6 +16,8 @@ export interface KeyDialogProps {
 }
 
 /** A dialog for editing a single key on the keyboard */
+// (removed duplicate import)
+
 export function KeyDialog(props: KeyDialogProps) {
     const [shift, setShift] = useState(props.keyData.shift * 100);
     const [width, setWidth] = useState(props.keyData.width * 100);
@@ -44,6 +46,16 @@ export function KeyDialog(props: KeyDialogProps) {
         | "n"
         | "s"
     >("c");
+    // Ref for the KeyInput
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    // Focus and select input when selectedRegion changes
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+            inputRef.current.select();
+        }
+    }, [selectedRegion]);
 
     return (
         <>
@@ -85,9 +97,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "40%",
                                             height: "40%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("c")
-                                        }
+                                    onClick={() => setSelectedRegion("c")}
                                         title="Tap Input"
                                     >
                                         <KeyLegend legend={c} />
@@ -103,9 +113,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("nw")
-                                        }
+                                    onClick={() => setSelectedRegion("nw")}
                                         title="Swipe Up-Left Input"
                                     >
                                         <KeyLegend legend={nw} />
@@ -121,9 +129,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("ne")
-                                        }
+                                    onClick={() => setSelectedRegion("ne")}
                                         title="Swipe Up-Right Input"
                                     >
                                         <KeyLegend legend={ne} />
@@ -139,9 +145,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("sw")
-                                        }
+                                    onClick={() => setSelectedRegion("sw")}
                                         title="Swipe Down-Left Input"
                                     >
                                         <KeyLegend legend={sw} />
@@ -157,9 +161,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("se")
-                                        }
+                                    onClick={() => setSelectedRegion("se")}
                                         title="Swipe Down-Right Input"
                                     >
                                         <KeyLegend legend={se} />
@@ -175,9 +177,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "40%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("w")
-                                        }
+                                    onClick={() => setSelectedRegion("w")}
                                         title="Swipe Left Input"
                                     >
                                         <KeyLegend legend={w} />
@@ -193,9 +193,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "40%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("e")
-                                        }
+                                    onClick={() => setSelectedRegion("e")}
                                         title="Swipe Right Input"
                                     >
                                         <KeyLegend legend={e} />
@@ -211,9 +209,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "40%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("n")
-                                        }
+                                    onClick={() => setSelectedRegion("n")}
                                         title="Swipe Up Input"
                                     >
                                         <KeyLegend legend={n} />
@@ -229,9 +225,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "40%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("s")
-                                        }
+                                    onClick={() => setSelectedRegion("s")}
                                         title="Swipe Down Input"
                                     >
                                         <KeyLegend legend={s} />
@@ -245,25 +239,22 @@ export function KeyDialog(props: KeyDialogProps) {
                                         selectedRegion === "c"
                                             ? c
                                             : selectedRegion === "nw"
-                                              ? nw
-                                              : selectedRegion === "ne"
-                                                ? ne
-                                                : selectedRegion === "sw"
-                                                  ? sw
-                                                  : selectedRegion === "se"
-                                                    ? se
-                                                    : selectedRegion === "w"
-                                                      ? w
-                                                      : selectedRegion ===
-                                                          "e"
-                                                        ? e
-                                                        : selectedRegion ===
-                                                            "n"
-                                                          ? n
-                                                          : selectedRegion ===
-                                                              "s"
-                                                            ? s
-                                                            : ""
+                                            ? nw
+                                            : selectedRegion === "ne"
+                                            ? ne
+                                            : selectedRegion === "sw"
+                                            ? sw
+                                            : selectedRegion === "se"
+                                            ? se
+                                            : selectedRegion === "w"
+                                            ? w
+                                            : selectedRegion === "e"
+                                            ? e
+                                            : selectedRegion === "n"
+                                            ? n
+                                            : selectedRegion === "s"
+                                            ? s
+                                            : ""
                                     }
                                     updateInput={(value) => {
                                         switch (selectedRegion) {
@@ -296,6 +287,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                                 break;
                                         }
                                     }}
+                                    inputRef={inputRef}
                                 />
                             </div>
 

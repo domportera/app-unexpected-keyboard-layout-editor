@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
+import { Ref } from "preact";
 
 /** Props for the KeyInput component */
 export interface KeyInputProps {
@@ -6,6 +7,8 @@ export interface KeyInputProps {
     input: string;
     /** Callback to update the input value */
     updateInput: (input: string) => void;
+    /** Optional ref to the input element */
+    inputRef?: Ref<HTMLInputElement>;
 }
 
 const specialKeys = [
@@ -171,6 +174,7 @@ export function KeyInput(props: KeyInputProps) {
                 class="form-control"
                 type="text"
                 value={props.input ?? ""}
+                ref={props.inputRef}
                 onInput={(e) => {
                     const value = (e.target as HTMLInputElement).value;
                     let input = value.trim().toLocaleLowerCase();
