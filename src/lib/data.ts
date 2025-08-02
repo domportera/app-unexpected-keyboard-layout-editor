@@ -192,23 +192,33 @@ export function toXmlKeyboard(data: KeyboardData): XmlKeyboard {
                     height: row.height !== 1 ? row.height : undefined,
                     shift: row.shift !== 0 ? row.shift : undefined,
                 },
-                key: row.keys.map((key) => ({
-                    $: {
-                        width: key.width !== 1 ? key.width : undefined,
-                        shift: key.shift !== 0 ? key.shift : undefined,
-                        slider: key.slider ? true : undefined,
-
-                        c: key.c !== "" ? str(key.c) : undefined,
-                        nw: key.nw !== "" ? str(key.nw) : undefined,
-                        ne: key.ne !== "" ? str(key.ne) : undefined,
-                        sw: key.sw !== "" ? str(key.sw) : undefined,
-                        se: key.se !== "" ? str(key.se) : undefined,
-                        w: key.w !== "" ? str(key.w) : undefined,
-                        e: key.e !== "" ? str(key.e) : undefined,
-                        n: key.n !== "" ? str(key.n) : undefined,
-                        s: key.s !== "" ? str(key.s) : undefined,
-                    },
-                })),
+                key: row.keys.map((key) => {
+                    // Compare by value with a default key
+                    const blankKey = newKey();
+                    // Shallow compare all properties
+                    const isBlank = Object.keys(blankKey).every(
+                        (k) => (key as any)[k] === (blankKey as any)[k]
+                    );
+                    if (isBlank) {
+                        return { $: {} };
+                    }
+                    return {
+                        $: {
+                            width: key.width !== 1 ? key.width : undefined,
+                            shift: key.shift !== 0 ? key.shift : undefined,
+                            slider: key.slider ? true : undefined,
+                            c: key.c !== "" ? str(key.c) : undefined,
+                            nw: key.nw !== "" ? str(key.nw) : undefined,
+                            ne: key.ne !== "" ? str(key.ne) : undefined,
+                            sw: key.sw !== "" ? str(key.sw) : undefined,
+                            se: key.se !== "" ? str(key.se) : undefined,
+                            w: key.w !== "" ? str(key.w) : undefined,
+                            e: key.e !== "" ? str(key.e) : undefined,
+                            n: key.n !== "" ? str(key.n) : undefined,
+                            s: key.s !== "" ? str(key.s) : undefined,
+                        },
+                    };
+                }),
             })),
         },
     };
@@ -241,6 +251,10 @@ export function fromXmlKeyboard(xml: XmlKeyboard): KeyboardData {
             height: row.$?.height ?? 1,
             shift: row.$?.shift ?? 0,
             keys: row.key.map((key: any) => {
+                // If the key is empty (no attributes), treat as blank key
+                if (!key.$ || Object.keys(key.$).length === 0) {
+                    return newKey();
+                }
                 // Legacy key0-8 mapping to new property names
                 const legacyKeyMap: Record<string, keyof KeyData> = {
                     key0: "c",
