@@ -36,6 +36,7 @@ const legendIcons: Record<KeyLegendProps["legend"], string> = {
     selectAll: "check2-circle",
     undo: "arrow-counterclockwise",
     redo: "arrow-clockwise",
+    voice_typing: "mic-fill"
 };
 
 /** Mapping of legends to strings */
