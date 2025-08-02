@@ -11,6 +11,8 @@ export interface KeyProps {
     updateKey: (key: KeyData) => void;
     /** Callback to delete the key */
     deleteKey: () => void;
+    /** Callback to insert a key before this key */
+    insertKeyBefore: () => void;
     /** The entire keyboard data */
     keyboardData: KeyboardData;
 }
@@ -18,6 +20,35 @@ export interface KeyProps {
 /** A single key on the keyboard that supports editing */
 export function Key(props: KeyProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
+    const [menuPos, setMenuPos] = useState<{x: number, y: number} | null>(null);
+
+    // For mobile long-press
+    let longPressTimer: number | null = null;
+
+    const handleContextMenu = (e: MouseEvent | TouchEvent) => {
+        e.preventDefault();
+        let x = 0, y = 0;
+        if ('touches' in e && e.touches.length > 0) {
+            x = e.touches[0].clientX;
+            y = e.touches[0].clientY;
+        } else if ('clientX' in e) {
+            x = e.clientX;
+            y = e.clientY;
+        }
+        setMenuPos({ x, y });
+        setShowMenu(true);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+        longPressTimer = window.setTimeout(() => handleContextMenu(e), 500);
+    };
+    const handleTouchEnd = () => {
+        if (longPressTimer) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+        }
+    };
 
     const keyboardWidth = useMemo(
         () => getKeyboardWidth(props.keyboardData),
@@ -29,6 +60,9 @@ export function Key(props: KeyProps) {
             <button
                 class="btn btn-secondary position-relative h-100"
                 onClick={() => setDialogOpen(true)}
+                onContextMenu={handleContextMenu}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
                 style={{
                     width: (props.keyData.width / keyboardWidth) * 100 + "%",
                     marginLeft:
@@ -85,6 +119,32 @@ export function Key(props: KeyProps) {
                     />
                 )}
             </button>
+            {showMenu && menuPos && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: menuPos.y,
+                        left: menuPos.x,
+                        background: "white",
+                        border: "1px solid #ccc",
+                        zIndex: 1000,
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                        minWidth: "140px",
+                    }}
+                    onClick={() => setShowMenu(false)}
+                >
+                    <button
+                        class="dropdown-item w-100 text-start"
+                        onClick={e => {
+                            e.stopPropagation();
+                            setShowMenu(false);
+                            props.insertKeyBefore();
+                        }}
+                    >
+                        Insert key before
+                    </button>
+                </div>
+            )}
             {dialogOpen && (
                 <KeyDialog
                     keyData={props.keyData}

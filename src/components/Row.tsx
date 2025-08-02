@@ -19,6 +19,19 @@ export interface RowProps {
 export function Row(props: RowProps) {
     const [showEditDialog, setShowEditDialog] = useState(false);
 
+    // Handler to insert a new key before index
+    const insertKeyBefore = (index: number) => {
+        const keys = [
+            ...props.rowData.keys.slice(0, index),
+            newKey(),
+            ...props.rowData.keys.slice(index),
+        ];
+        props.updateRow({
+            ...props.rowData,
+            keys,
+        });
+    };
+
     return (
         <div
             class="row"
@@ -47,6 +60,7 @@ export function Row(props: RowProps) {
                                 ),
                             })
                         }
+                        insertKeyBefore={() => insertKeyBefore(j)}
                         keyboardData={props.keyboardData}
                     />
                 ))}
