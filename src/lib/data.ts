@@ -237,23 +237,46 @@ export function fromXmlKeyboard(xml: XmlKeyboard): KeyboardData {
     return {
         name: str(xml.keyboard?.$?.name, "Custom Layout"),
         script: str(xml.keyboard?.$?.script),
-        rows: xml.keyboard.row.map((row) => ({
+        rows: xml.keyboard.row.map((row: any) => ({
             height: row.$?.height ?? 1,
             shift: row.$?.shift ?? 0,
-            keys: row.key.map((key) => ({
-                width: key.$.width ?? 1,
-                shift: key.$.shift ?? 0,
-                c: str(key.$.c),
-                nw: str(key.$.nw),
-                ne: str(key.$.ne),
-                sw: str(key.$.sw),
-                se: str(key.$.se),
-                w: str(key.$.w),
-                e: str(key.$.e),
-                n: str(key.$.n),
-                s: str(key.$.s),
-                slider: key.$.slider ?? false,
-            })),
+            keys: row.key.map((key: any) => {
+                // Legacy key0-8 mapping to new property names
+                const legacyKeyMap: Record<string, keyof KeyData> = {
+                    key0: "c",
+                    key1: "nw",
+                    key2: "ne",
+                    key3: "sw",
+                    key4: "se",
+                    key5: "w",
+                    key6: "e",
+                    key7: "n",
+                    key8: "s",
+                };
+                // Copy all fields as normal
+                let keyObj: any = {
+                    width: key.$.width ?? 1,
+                    shift: key.$.shift ?? 0,
+                    c: str(key.$.c),
+                    nw: str(key.$.nw),
+                    ne: str(key.$.ne),
+                    sw: str(key.$.sw),
+                    se: str(key.$.se),
+                    w: str(key.$.w),
+                    e: str(key.$.e),
+                    n: str(key.$.n),
+                    s: str(key.$.s),
+                    slider: key.$.slider ?? false,
+                };
+                // Map legacy key0-8 to their new property names
+                for (const legacy in legacyKeyMap) {
+                    const mapped = legacyKeyMap[legacy];
+                    if (mapped && typeof key.$[legacy] === "string" && key.$[legacy]) {
+                        keyObj[mapped] = str(key.$[legacy]);
+                    }
+                }
+                return keyObj;
+            }),
         })),
         bottomRow: xml.keyboard.$?.bottom_row ?? true,
         width: xml.keyboard.$?.width,
