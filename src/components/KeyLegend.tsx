@@ -32,13 +32,19 @@ const legendIcons: Record<KeyLegendProps["legend"], string> = {
     tab: "indent",
     copy: "files",
     cut: "scissors",
-    paste: "clipboard-data",
+    paste: "clipboard2-check",
     selectAll: "check2-circle",
     undo: "arrow-counterclockwise",
     redo: "arrow-clockwise",
     voice_typing: "mic-fill",
     change_method: "keyboard-fill",
-    change_method_prev: "keyboard"
+    change_method_prev: "keyboard",
+    switch_clipboard: "clipboard2-data-fill",
+    switch_text: "alphabet-uppercase",
+    switch_numeric: "123",
+    meta: "x-diamond-fill",
+    switch_emoji: "emoji-sunglasses-fill",
+    config: "gear-fill"
 };
 
 /** Mapping of legends to strings */
