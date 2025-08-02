@@ -42,28 +42,28 @@ export function Key(props: KeyProps) {
         const { nw, n, ne, e, se, s, sw, w, ...rest } = props.keyData;
         props.updateKey({
             ...rest,
-            nw: sw,
-            n: w,
-            ne: nw,
-            e: n,
-            se: ne,
-            s: e,
-            sw: se,
-            w: s,
+            nw: w,
+            n: nw,
+            ne: n,
+            e: ne,
+            se: e,
+            s: se,
+            sw: s,
+            w: sw,
         });
     };
     const handleRotateCCW = () => {
         const { nw, n, ne, e, se, s, sw, w, ...rest } = props.keyData;
         props.updateKey({
             ...rest,
-            nw: ne,
-            n: e,
-            ne: se,
-            e: s,
-            se: sw,
-            s: w,
-            sw: nw,
-            w: n,
+            nw: n,
+            n: ne,
+            ne: e,
+            e: se,
+            se: s,
+            s: sw,
+            sw: w,
+            w: nw,
         });
     };
     // Flip helpers
