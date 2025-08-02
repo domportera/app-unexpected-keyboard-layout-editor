@@ -1,4 +1,4 @@
-import { useMemo, useState } from "preact/hooks";
+import { useMemo, useState, useRef, useEffect} from "preact/hooks";
 import { KeyData, KeyboardData, getKeyboardWidth } from "../lib/data";
 import { KeyDialog } from "./KeyDialog";
 import { KeyLegend } from "./KeyLegend";
@@ -20,7 +20,6 @@ export interface KeyProps {
 /** A single key on the keyboard that supports editing */
 export function Key(props: KeyProps) {
     // Context menu open/close logic
-    import { useRef, useEffect } from "preact/hooks";
     const contextMenuRef = useRef<HTMLDivElement>(null);
     const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
@@ -40,29 +39,31 @@ export function Key(props: KeyProps) {
     }, [contextMenuOpen]);
     // Rotate helpers
     const handleRotateCW = () => {
+        const { nw, n, ne, e, se, s, sw, w, ...rest } = props.keyData;
         props.updateKey({
-            ...props.keyData,
-            nw: props.keyData.sw,
-            w: props.keyData.nw,
-            sw: props.keyData.se,
-            s: props.keyData.e,
-            se: props.keyData.ne,
-            e: props.keyData.n,
-            ne: props.keyData.nw,
-            n: props.keyData.w,
+            ...rest,
+            nw: sw,
+            n: w,
+            ne: nw,
+            e: n,
+            se: ne,
+            s: e,
+            sw: se,
+            w: s,
         });
     };
     const handleRotateCCW = () => {
+        const { nw, n, ne, e, se, s, sw, w, ...rest } = props.keyData;
         props.updateKey({
-            ...props.keyData,
-            nw: props.keyData.ne,
-            w: props.keyData.nw,
-            sw: props.keyData.w,
-            s: props.keyData.se,
-            se: props.keyData.sw,
-            e: props.keyData.s,
-            ne: props.keyData.se,
-            n: props.keyData.e,
+            ...rest,
+            nw: ne,
+            n: e,
+            ne: se,
+            e: s,
+            se: sw,
+            s: w,
+            sw: nw,
+            w: n,
         });
     };
     // Flip helpers
@@ -226,7 +227,7 @@ export function Key(props: KeyProps) {
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
                             e.stopPropagation();
-                            setShowMenu(false);
+                            setContextMenuOpen(false);
                             props.insertKeyBefore();
                         }}
                     >
@@ -236,7 +237,7 @@ export function Key(props: KeyProps) {
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
                             e.stopPropagation();
-                            setShowMenu(false);
+                            setContextMenuOpen(false);
                             handleCopy();
                         }}
                     >
@@ -246,7 +247,7 @@ export function Key(props: KeyProps) {
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
                             e.stopPropagation();
-                            setShowMenu(false);
+                            setContextMenuOpen(false);
                             handlePaste();
                         }}
                     >
@@ -256,7 +257,7 @@ export function Key(props: KeyProps) {
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
                             e.stopPropagation();
-                            setShowMenu(false);
+                            setContextMenuOpen(false);
                             handleFlipHorizontal();
                         }}
                     >
@@ -266,7 +267,7 @@ export function Key(props: KeyProps) {
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
                             e.stopPropagation();
-                            setShowMenu(false);
+                            setContextMenuOpen(false);
                             handleFlipVertical();
                         }}
                     >
@@ -276,7 +277,7 @@ export function Key(props: KeyProps) {
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
                             e.stopPropagation();
-                            setShowMenu(false);
+                            setContextMenuOpen(false);
                             handleRotateCW();
                         }}
                     >
@@ -286,7 +287,7 @@ export function Key(props: KeyProps) {
                         class="dropdown-item w-100 text-start"
                         onClick={e => {
                             e.stopPropagation();
-                            setShowMenu(false);
+                            setContextMenuOpen(false);
                             handleRotateCCW();
                         }}
                     >
