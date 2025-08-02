@@ -35,52 +35,52 @@ export function Key(props: KeyProps) {
                         (props.keyData.shift / keyboardWidth) * 100 + "%",
                 }}
             >
-                <KeyLegend legend={props.keyData.key0} />
-                {props.keyData.key1 && (
+                <KeyLegend legend={props.keyData.c} />
+                {props.keyData.nw && (
                     <KeyLegend
-                        legend={props.keyData.key1}
+                        legend={props.keyData.nw}
                         class="position-absolute top-0 start-0 px-1"
                     />
                 )}
-                {props.keyData.key2 && (
+                {props.keyData.ne && (
                     <KeyLegend
-                        legend={props.keyData.key2}
+                        legend={props.keyData.ne}
                         class="position-absolute top-0 end-0 px-1"
                     />
                 )}
-                {props.keyData.key3 && (
+                {props.keyData.sw && (
                     <KeyLegend
-                        legend={props.keyData.key3}
+                        legend={props.keyData.sw}
                         class="position-absolute bottom-0 start-0 px-1"
                     />
                 )}
-                {props.keyData.key4 && (
+                {props.keyData.se && (
                     <KeyLegend
-                        legend={props.keyData.key4}
+                        legend={props.keyData.se}
                         class="position-absolute bottom-0 end-0 px-1"
                     />
                 )}
-                {props.keyData.key5 && (
+                {props.keyData.w && (
                     <KeyLegend
-                        legend={props.keyData.key5}
+                        legend={props.keyData.w}
                         class="position-absolute top-50 start-0 translate-middle-y px-1"
                     />
                 )}
-                {props.keyData.key6 && (
+                {props.keyData.e && (
                     <KeyLegend
-                        legend={props.keyData.key6}
+                        legend={props.keyData.e}
                         class="position-absolute top-50 end-0 translate-middle-y px-1"
                     />
                 )}
-                {props.keyData.key7 && (
+                {props.keyData.n && (
                     <KeyLegend
-                        legend={props.keyData.key7}
+                        legend={props.keyData.n}
                         class="position-absolute top-0 start-50 translate-middle-x px-1"
                     />
                 )}
-                {props.keyData.key8 && (
+                {props.keyData.s && (
                     <KeyLegend
-                        legend={props.keyData.key8}
+                        legend={props.keyData.s}
                         class="position-absolute bottom-0 start-50 translate-middle-x px-1"
                     />
                 )}
