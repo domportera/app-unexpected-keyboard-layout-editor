@@ -100,6 +100,7 @@ export function App() {
                                     Redo
                                 </button>
                             </div>
+                            <div>Right click or long-press keys for more options</div>
                             <button
                                 class="btn btn-outline-primary"
                                 onClick={() => setShowKeyboardDialog(true)}
