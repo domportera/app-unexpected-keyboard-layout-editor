@@ -1,8 +1,8 @@
-# [Unexpected Keyboard Layout Editor](https://unexpected-keyboard-layout-editor.lixquid.com)
+# [Unexpected Keyboard Layout Editor](https://github.com/domportera/app-unexpected-keyboard-layout-editor)
 
-A tool for creating and editing layouts for the Unexpected Keyboard for Android devices.
+A tool for creating and editing layouts for [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard). Thanks a million to [Julow](https://github.com/sponsors/Julow) for this gift of a keyboard.
 
-https://unexpected-keyboard-layout-editor.lixquid.com
+Forked from [lixquid's repository](https://github.com/lixquid/app-unexpected-keyboard-layout-editor), whose live site can be viewed [here](https://unexpected-keyboard-layout-editor.lixquid.com)
 
 ## How to Use
 
@@ -34,3 +34,6 @@ Changes to the source files will be automatically reloaded in the browser.
 1. Remove the `dist` folder: `rm -rf dist`
 2. Build the project: `yarn build`
 3. The production files will be in the `dist` folder
+
+## Maintenance Notes
+Maintenance of this fork is not guaranteed - as I'm basically clueless about web development. I just figured this was something I could do quickly for my own sake and anyone else's. Forks or contributions are welcome!

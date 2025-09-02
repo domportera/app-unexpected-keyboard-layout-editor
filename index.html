@@ -5,18 +5,13 @@
         <title>Unexpected Keyboard Layout Editor</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="./src/assets/favicon.png" type="image/png" />
-        <link
-            rel="stylesheet"
-            href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
-        />
-        <link
-            rel="stylesheet"
-            href="./node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
-        />
-        <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap and Bootstrap Icons CSS are imported in the app entry point and bundled by Vite -->
+        <!-- Bootstrap JS is imported in the app entry point and bundled by Vite -->
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <script src="./src/index.tsx" type="module"></script>
+        <div id="app"></div>
+        <script type="module" src="/src/index.tsx"></script>
+        <!-- Vite injects the correct script during build -->
     </body>
 </html>

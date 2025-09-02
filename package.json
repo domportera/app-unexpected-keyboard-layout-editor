@@ -1,10 +1,10 @@
 {
     "name": "app-unexpected-keyboard-layout-editor",
-    "description": "A tool for creating layouts for the Unexpected Keyboard for Android devices.",
-    "version": "0.1.0",
+    "description": "A tool for creating layouts for Unexpected Keyboard.",
+    "version": "0.3.0",
     "author": {
-        "name": "Lixquid",
-        "url": "https://lixquid.com"
+        "name": "domportera",
+        "url": "https://domportera.github.io/app-unexpected-keyboard-layout-editor/"
     },
     "license": "MIT",
     "private": true,
@@ -29,6 +29,7 @@
         "tabWidth": 4
     },
     "devDependencies": {
+        "@preact/preset-vite": "^2.10.2",
         "buffer": "^5.7.1",
         "events": "^3.3.0",
         "process": "^0.11.10",

@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useRef, useEffect } from "preact/hooks";
 import { KeyData } from "../lib/data";
 import { KeyInput } from "./KeyInput";
 import { KeyLegend } from "./KeyLegend";
@@ -16,34 +16,46 @@ export interface KeyDialogProps {
 }
 
 /** A dialog for editing a single key on the keyboard */
+// (removed duplicate import)
+
 export function KeyDialog(props: KeyDialogProps) {
     const [shift, setShift] = useState(props.keyData.shift * 100);
     const [width, setWidth] = useState(props.keyData.width * 100);
     const [slider, setSlider] = useState(false);
-    const [key0, setKey0] = useState(props.keyData.key0);
-    const [key1, setKey1] = useState(props.keyData.key1);
-    const [key2, setKey2] = useState(props.keyData.key2);
-    const [key3, setKey3] = useState(props.keyData.key3);
-    const [key4, setKey4] = useState(props.keyData.key4);
-    const [key5, setKey5] = useState(props.keyData.key5);
-    const [key6, setKey6] = useState(props.keyData.key6);
-    const [key7, setKey7] = useState(props.keyData.key7);
-    const [key8, setKey8] = useState(props.keyData.key8);
+    const [c, setc] = useState(props.keyData.c);
+    const [nw, setnw] = useState(props.keyData.nw);
+    const [ne, setne] = useState(props.keyData.ne);
+    const [sw, setsw] = useState(props.keyData.sw);
+    const [se, setse] = useState(props.keyData.se);
+    const [w, setw] = useState(props.keyData.w);
+    const [e, sete] = useState(props.keyData.e);
+    const [n, setn] = useState(props.keyData.n);
+    const [s, sets] = useState(props.keyData.s);
 
     const [showCornerKeys, setShowCornerKeys] = useState(false);
     const [showEdgeKeys, setShowEdgeKeys] = useState(false);
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [selectedRegion, setSelectedRegion] = useState<
-        | "key0"
-        | "key1"
-        | "key2"
-        | "key3"
-        | "key4"
-        | "key5"
-        | "key6"
-        | "key7"
-        | "key8"
-    >("key0");
+        | "c"
+        | "nw"
+        | "ne"
+        | "sw"
+        | "se"
+        | "w"
+        | "e"
+        | "n"
+        | "s"
+    >("c");
+    // Ref for the KeyInput
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    // Focus and select input when selectedRegion changes
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+            inputRef.current.select();
+        }
+    }, [selectedRegion]);
 
     return (
         <>
@@ -76,7 +88,7 @@ export function KeyDialog(props: KeyDialogProps) {
                                 >
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key0" &&
+                                            selectedRegion === "c" &&
                                             "active"
                                         }`}
                                         style={{
@@ -85,16 +97,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "40%",
                                             height: "40%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key0")
-                                        }
+                                    onClick={() => setSelectedRegion("c")}
                                         title="Tap Input"
                                     >
-                                        <KeyLegend legend={key0} />
+                                        <KeyLegend legend={c} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key1" &&
+                                            selectedRegion === "nw" &&
                                             "active"
                                         }`}
                                         style={{
@@ -103,16 +113,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key1")
-                                        }
+                                    onClick={() => setSelectedRegion("nw")}
                                         title="Swipe Up-Left Input"
                                     >
-                                        <KeyLegend legend={key1} />
+                                        <KeyLegend legend={nw} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key2" &&
+                                            selectedRegion === "ne" &&
                                             "active"
                                         }`}
                                         style={{
@@ -121,16 +129,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key2")
-                                        }
+                                    onClick={() => setSelectedRegion("ne")}
                                         title="Swipe Up-Right Input"
                                     >
-                                        <KeyLegend legend={key2} />
+                                        <KeyLegend legend={ne} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key3" &&
+                                            selectedRegion === "sw" &&
                                             "active"
                                         }`}
                                         style={{
@@ -139,16 +145,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key3")
-                                        }
+                                    onClick={() => setSelectedRegion("sw")}
                                         title="Swipe Down-Left Input"
                                     >
-                                        <KeyLegend legend={key3} />
+                                        <KeyLegend legend={sw} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key4" &&
+                                            selectedRegion === "se" &&
                                             "active"
                                         }`}
                                         style={{
@@ -157,16 +161,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key4")
-                                        }
+                                    onClick={() => setSelectedRegion("se")}
                                         title="Swipe Down-Right Input"
                                     >
-                                        <KeyLegend legend={key4} />
+                                        <KeyLegend legend={se} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key5" &&
+                                            selectedRegion === "w" &&
                                             "active"
                                         }`}
                                         style={{
@@ -175,16 +177,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "40%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key5")
-                                        }
+                                    onClick={() => setSelectedRegion("w")}
                                         title="Swipe Left Input"
                                     >
-                                        <KeyLegend legend={key5} />
+                                        <KeyLegend legend={w} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key6" &&
+                                            selectedRegion === "e" &&
                                             "active"
                                         }`}
                                         style={{
@@ -193,16 +193,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "25%",
                                             height: "40%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key6")
-                                        }
+                                    onClick={() => setSelectedRegion("e")}
                                         title="Swipe Right Input"
                                     >
-                                        <KeyLegend legend={key6} />
+                                        <KeyLegend legend={e} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key7" &&
+                                            selectedRegion === "n" &&
                                             "active"
                                         }`}
                                         style={{
@@ -211,16 +209,14 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "40%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key7")
-                                        }
+                                    onClick={() => setSelectedRegion("n")}
                                         title="Swipe Up Input"
                                     >
-                                        <KeyLegend legend={key7} />
+                                        <KeyLegend legend={n} />
                                     </button>
                                     <button
                                         class={`btn btn-secondary position-absolute ${
-                                            selectedRegion === "key8" &&
+                                            selectedRegion === "s" &&
                                             "active"
                                         }`}
                                         style={{
@@ -229,12 +225,10 @@ export function KeyDialog(props: KeyDialogProps) {
                                             width: "40%",
                                             height: "25%",
                                         }}
-                                        onClick={() =>
-                                            setSelectedRegion("key8")
-                                        }
+                                    onClick={() => setSelectedRegion("s")}
                                         title="Swipe Down Input"
                                     >
-                                        <KeyLegend legend={key8} />
+                                        <KeyLegend legend={s} />
                                     </button>
                                 </div>
                             </div>
@@ -242,60 +236,58 @@ export function KeyDialog(props: KeyDialogProps) {
                             <div class="mb-3">
                                 <KeyInput
                                     input={
-                                        selectedRegion === "key0"
-                                            ? key0
-                                            : selectedRegion === "key1"
-                                              ? key1
-                                              : selectedRegion === "key2"
-                                                ? key2
-                                                : selectedRegion === "key3"
-                                                  ? key3
-                                                  : selectedRegion === "key4"
-                                                    ? key4
-                                                    : selectedRegion === "key5"
-                                                      ? key5
-                                                      : selectedRegion ===
-                                                          "key6"
-                                                        ? key6
-                                                        : selectedRegion ===
-                                                            "key7"
-                                                          ? key7
-                                                          : selectedRegion ===
-                                                              "key8"
-                                                            ? key8
-                                                            : ""
+                                        selectedRegion === "c"
+                                            ? c
+                                            : selectedRegion === "nw"
+                                            ? nw
+                                            : selectedRegion === "ne"
+                                            ? ne
+                                            : selectedRegion === "sw"
+                                            ? sw
+                                            : selectedRegion === "se"
+                                            ? se
+                                            : selectedRegion === "w"
+                                            ? w
+                                            : selectedRegion === "e"
+                                            ? e
+                                            : selectedRegion === "n"
+                                            ? n
+                                            : selectedRegion === "s"
+                                            ? s
+                                            : ""
                                     }
                                     updateInput={(value) => {
                                         switch (selectedRegion) {
-                                            case "key0":
-                                                setKey0(value);
+                                            case "c":
+                                                setc(value);
                                                 break;
-                                            case "key1":
-                                                setKey1(value);
+                                            case "nw":
+                                                setnw(value);
                                                 break;
-                                            case "key2":
-                                                setKey2(value);
+                                            case "ne":
+                                                setne(value);
                                                 break;
-                                            case "key3":
-                                                setKey3(value);
+                                            case "sw":
+                                                setsw(value);
                                                 break;
-                                            case "key4":
-                                                setKey4(value);
+                                            case "se":
+                                                setse(value);
                                                 break;
-                                            case "key5":
-                                                setKey5(value);
+                                            case "w":
+                                                setw(value);
                                                 break;
-                                            case "key6":
-                                                setKey6(value);
+                                            case "e":
+                                                sete(value);
                                                 break;
-                                            case "key7":
-                                                setKey7(value);
+                                            case "n":
+                                                setn(value);
                                                 break;
-                                            case "key8":
-                                                setKey8(value);
+                                            case "s":
+                                                sets(value);
                                                 break;
                                         }
                                     }}
+                                    inputRef={inputRef}
                                 />
                             </div>
 
@@ -424,15 +416,15 @@ export function KeyDialog(props: KeyDialogProps) {
                                                 ...props.keyData,
                                                 shift: shift / 100,
                                                 width: width / 100,
-                                                key0,
-                                                key1,
-                                                key2,
-                                                key3,
-                                                key4,
-                                                key5,
-                                                key6,
-                                                key7,
-                                                key8,
+                                                c,
+                                                nw,
+                                                ne,
+                                                sw,
+                                                se,
+                                                w,
+                                                e,
+                                                n,
+                                                s,
                                             });
                                             props.onClose();
                                         }}

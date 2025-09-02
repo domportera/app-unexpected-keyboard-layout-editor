@@ -1,0 +1,48 @@
+/* Responsive overrides for keyboard layout editor */
+
+/* Make the main card and keyboard layout responsive */
+@media (max-width: 900px) {
+  .card[style*="min-width"] {
+    min-width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  .card[style*="min-width"] {
+    min-width: 100% !important;
+  }
+  .lead, h1, h4 {
+    font-size: 1.1rem !important;
+  }
+  .btn {
+    font-size: 0.95rem !important;
+    padding: 0.4rem 0.7rem !important;
+  }
+}
+
+/* Make keyboard rows wrap and keys shrink on small screens */
+@media (max-width: 600px) {
+  .row {
+    flex-wrap: wrap !important;
+  }
+  .col {
+    min-width: 0 !important;
+    padding: 0 !important;
+  }
+  .btn.btn-secondary.position-relative.h-100 {
+    font-size: 0.9rem !important;
+    min-width: 2.2rem !important;
+    padding: 0.2rem 0.2rem !important;
+  }
+}
+
+/* Ensure KeyLegend icons/text scale down */
+@media (max-width: 600px) {
+  .KeyLegend, .KeyLegend span, .KeyLegend i {
+    font-size: 0.9em !important;
+  }
+}

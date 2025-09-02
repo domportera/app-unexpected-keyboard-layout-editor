@@ -1,0 +1,33 @@
+
+# Changelog
+
+## [0.3.0]
+
+### Added
+- Context menu actions:
+	- Insert New Key Before
+	- Flip key (horizontal or verical)
+	- Rotate key (cw or ccw)
+	- Copy/paste key
+- Support for layouts with blank keys
+- Streamlined export with option to download file
+
+### Fixed
+- Respect bottom_row enabled status on xml import
+
+## [0.2.0]
+
+### Added
+- Additional icons for keys, including clipboard, emoji, config, and more.
+- Responsive design improvements for better usability on small screens.
+- Auto-focus and select text entry when clicking on a key region in the key popup.
+
+### Changed
+- Improved XML import compatibility for legacy and current key field names.
+- Made the output data based on non-legacy key names (cardinal directions)
+
+### Technical/Internal
+- Updated codebase and sample layouts to use new key property names.
+- Updated Vite/Preact/Github Pages configurations.
+- 404 page for GitHub Pages SPA routing.
+

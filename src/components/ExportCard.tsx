@@ -13,13 +13,30 @@ function setClipboard(text: string) {
     navigator.clipboard.writeText(text);
 }
 
+/** Triggers a download of the given text as a file */
+function saveFile(text: string, filename: string) {
+    const blob = new Blob([text], { type: "text/xml" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 0);
+}
+
 /** A card for exporting the keyboard to XML format */
 export function ExportCard(props: ExportCardProps) {
     const [xml, setXml] = useState<string>("");
 
     const exportXml = useCallback(() => {
         const builder = new xml2js.Builder();
-        setXml(builder.buildObject(toXmlKeyboard(props.keyboard)));
+        const xmlStr = builder.buildObject(toXmlKeyboard(props.keyboard));
+        setXml(xmlStr);
+        setClipboard(xmlStr);
     }, [props.keyboard, setXml]);
 
     return (
@@ -30,14 +47,14 @@ export function ExportCard(props: ExportCardProps) {
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <button class="btn btn-primary" onClick={exportXml}>
-                        Export to XML
+                        Export to XML <i class="bi bi-clipboard"/>
                     </button>
                     <button
                         class="btn btn-secondary"
-                        onClick={() => setClipboard(xml)}
+                        onClick={() => saveFile(xml, "keyboard.xml")}
                         disabled={!xml}
                     >
-                        Copy to Clipboard
+                        Save File <i class="bi bi-download"/>
                     </button>
                 </div>
                 {xml && (

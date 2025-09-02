@@ -9,25 +9,25 @@ export interface KeyData {
     /** Horizontal offset of the key. Defaults to 0. */
     shift: number;
     /** The main insert sequence of the key. */
-    key0: string;
+    c: string;
     /** The top-left insert sequence of the key. */
-    key1: string;
+    nw: string;
     /** The top-right insert sequence of the key. */
-    key2: string;
+    ne: string;
     /** The bottom-left insert sequence of the key. */
-    key3: string;
+    sw: string;
     /** The bottom-right insert sequence of the key. */
-    key4: string;
+    se: string;
     /** The left insert sequence of the key. */
-    key5: string;
+    w: string;
     /** The right insert sequence of the key. */
-    key6: string;
+    e: string;
     /** The top insert sequence of the key. */
-    key7: string;
+    n: string;
     /** The bottom insert sequence of the key. */
-    key8: string;
+    s: string;
     /**
-     * If this key can activate its {@link key5} or {@link key6} sequences by
+     * If this key can activate its {@link w} or {@link e} sequences by
      * swiping.
      */
     slider: boolean;
@@ -64,15 +64,15 @@ export function newKey(): KeyData {
     return {
         shift: 0,
         width: 1,
-        key0: "",
-        key1: "",
-        key2: "",
-        key3: "",
-        key4: "",
-        key5: "",
-        key6: "",
-        key7: "",
-        key8: "",
+        c: "",
+        nw: "",
+        ne: "",
+        sw: "",
+        se: "",
+        w: "",
+        e: "",
+        n: "",
+        s: "",
         slider: false,
     };
 }
@@ -147,17 +147,17 @@ const xmlSchema = z.object({
                         $: z.object({
                             width: z.coerce.number().positive().optional(),
                             shift: z.coerce.number().positive().optional(),
-                            key0: z.string().optional(),
-                            key1: z.string().optional(),
-                            key2: z.string().optional(),
-                            key3: z.string().optional(),
-                            key4: z.string().optional(),
-                            key5: z.string().optional(),
-                            key6: z.string().optional(),
-                            key7: z.string().optional(),
-                            key8: z.string().optional(),
+                            c: z.string().optional(),
+                            nw: z.string().optional(),
+                            ne: z.string().optional(),
+                            sw: z.string().optional(),
+                            se: z.string().optional(),
+                            w: z.string().optional(),
+                            e: z.string().optional(),
+                            n: z.string().optional(),
+                            s: z.string().optional(),
                             slider: z.coerce.boolean().optional(),
-                        }),
+                        }).optional(),
                     }),
                 ),
             }),
@@ -192,23 +192,33 @@ export function toXmlKeyboard(data: KeyboardData): XmlKeyboard {
                     height: row.height !== 1 ? row.height : undefined,
                     shift: row.shift !== 0 ? row.shift : undefined,
                 },
-                key: row.keys.map((key) => ({
-                    $: {
-                        width: key.width !== 1 ? key.width : undefined,
-                        shift: key.shift !== 0 ? key.shift : undefined,
-                        slider: key.slider ? true : undefined,
-
-                        key0: key.key0 !== "" ? str(key.key0) : undefined,
-                        key1: key.key1 !== "" ? str(key.key1) : undefined,
-                        key2: key.key2 !== "" ? str(key.key2) : undefined,
-                        key3: key.key3 !== "" ? str(key.key3) : undefined,
-                        key4: key.key4 !== "" ? str(key.key4) : undefined,
-                        key5: key.key5 !== "" ? str(key.key5) : undefined,
-                        key6: key.key6 !== "" ? str(key.key6) : undefined,
-                        key7: key.key7 !== "" ? str(key.key7) : undefined,
-                        key8: key.key8 !== "" ? str(key.key8) : undefined,
-                    },
-                })),
+                key: row.keys.map((key) => {
+                    // Compare to blank key
+                    const blankKey = newKey();
+                    // Shallow compare all properties
+                    const isBlank = Object.keys(blankKey).every(
+                        (k) => (key as any)[k] === (blankKey as any)[k]
+                    );
+                    if (isBlank) {
+                        return { $: {} };
+                    }
+                    return {
+                        $: {
+                            width: key.width !== 1 ? key.width : undefined,
+                            shift: key.shift !== 0 ? key.shift : undefined,
+                            slider: key.slider ? true : undefined,
+                            c: key.c !== "" ? str(key.c) : undefined,
+                            nw: key.nw !== "" ? str(key.nw) : undefined,
+                            ne: key.ne !== "" ? str(key.ne) : undefined,
+                            sw: key.sw !== "" ? str(key.sw) : undefined,
+                            se: key.se !== "" ? str(key.se) : undefined,
+                            w: key.w !== "" ? str(key.w) : undefined,
+                            e: key.e !== "" ? str(key.e) : undefined,
+                            n: key.n !== "" ? str(key.n) : undefined,
+                            s: key.s !== "" ? str(key.s) : undefined,
+                        },
+                    };
+                }),
             })),
         },
     };
@@ -233,29 +243,63 @@ export function fromXmlKeyboard(xml: XmlKeyboard): KeyboardData {
         if (isNaN(v)) return undefined;
         return v;
     }
+    function toBool(val: any, defaultValue = true): boolean {
+        if (val === undefined) return defaultValue;
+        if (typeof val === "boolean") return val;
+        if (typeof val === "string") return val.toLowerCase() === "true";
+        return Boolean(val);
+    }
 
     return {
         name: str(xml.keyboard?.$?.name, "Custom Layout"),
         script: str(xml.keyboard?.$?.script),
-        rows: xml.keyboard.row.map((row) => ({
+        rows: xml.keyboard.row.map((row: any) => ({
             height: row.$?.height ?? 1,
             shift: row.$?.shift ?? 0,
-            keys: row.key.map((key) => ({
-                width: key.$.width ?? 1,
-                shift: key.$.shift ?? 0,
-                key0: str(key.$.key0),
-                key1: str(key.$.key1),
-                key2: str(key.$.key2),
-                key3: str(key.$.key3),
-                key4: str(key.$.key4),
-                key5: str(key.$.key5),
-                key6: str(key.$.key6),
-                key7: str(key.$.key7),
-                key8: str(key.$.key8),
-                slider: key.$.slider ?? false,
-            })),
+            keys: row.key.map((key: any) => {
+                // If the key is empty (no attributes), treat as blank key
+                if (!key.$ || Object.keys(key.$).length === 0) {
+                    return newKey();
+                }
+                // Legacy key0-8 mapping to new property names
+                const legacyKeyMap: Record<string, keyof KeyData> = {
+                    key0: "c",
+                    key1: "nw",
+                    key2: "ne",
+                    key3: "sw",
+                    key4: "se",
+                    key5: "w",
+                    key6: "e",
+                    key7: "n",
+                    key8: "s",
+                };
+                // Copy all fields as normal
+                let keyObj: any = {
+                    width: key.$.width ?? 1,
+                    shift: key.$.shift ?? 0,
+                    c: str(key.$.c),
+                    nw: str(key.$.nw),
+                    ne: str(key.$.ne),
+                    sw: str(key.$.sw),
+                    se: str(key.$.se),
+                    w: str(key.$.w),
+                    e: str(key.$.e),
+                    n: str(key.$.n),
+                    s: str(key.$.s),
+                    slider: key.$.slider ?? false,
+                };
+                // Map legacy key0-8 to their new property names
+                for (const legacy in legacyKeyMap) {
+                    const mapped = legacyKeyMap[legacy];
+                    if (mapped && typeof key.$[legacy] === "string" && key.$[legacy]) {
+                        keyObj[mapped] = str(key.$[legacy]);
+                    }
+                }
+                return keyObj;
+            }),
         })),
-        bottomRow: xml.keyboard.$?.bottom_row ?? true,
+        // Respect both bottom_row and bottomRow, defaulting to true only if both are undefined
+        bottomRow: toBool(xml.keyboard.$?.bottom_row ?? xml.keyboard.$?.bottomRow, true),
         width: xml.keyboard.$?.width,
     };
 }
