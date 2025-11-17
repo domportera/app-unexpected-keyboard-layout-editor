@@ -125,7 +125,7 @@ const xmlSchema = z.object({
                 bottom_row: z.coerce.boolean().optional(),
                 /** Deprecated alias for `bottom_row`. */
                 bottomRow: z.coerce.boolean().optional(),
-                width: z.coerce.number().positive().optional(),
+                width: z.coerce.number().nonnegative().optional(),
             })
             .transform((o) => ({
                 name: o.name,
@@ -138,15 +138,15 @@ const xmlSchema = z.object({
             z.object({
                 $: z
                     .object({
-                        height: z.coerce.number().positive().optional(),
-                        shift: z.coerce.number().positive().optional(),
+                        height: z.coerce.number().nonnegative().optional(),
+                        shift: z.coerce.number().nonnegative().optional(),
                     })
                     .optional(),
                 key: z.array(
                     z.object({
                         $: z.object({
-                            width: z.coerce.number().positive().optional(),
-                            shift: z.coerce.number().positive().optional(),
+                            width: z.coerce.number().nonnegative().optional(),
+                            shift: z.coerce.number().nonnegative().optional(),
                             c: z.string().optional(),
                             nw: z.string().optional(),
                             ne: z.string().optional(),
