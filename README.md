@@ -1,6 +1,10 @@
-# [Unexpected Keyboard Layout Editor](https://github.com/domportera/app-unexpected-keyboard-layout-editor)
+# [Unexpected Keyboard Layout Editor](https://domportera.github.io/app-unexpected-keyboard-layout-editor)
 
-A tool for creating and editing layouts for [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard). Thanks a million to [Julow](https://github.com/sponsors/Julow) for this gift of a keyboard.
+## Pull requests welcome!
+I don't see myself religiously maintaining this, but pull requests for fixes/updates are more than welcome. Problems and blind spots still exist here, and I am fairly out of my depth with web development as it is. I am happy to review and accept pull requests that improve this in any way.
+
+## Information
+This is a tool for creating and editing layouts for [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard). Thanks a million to [Julow](https://github.com/sponsors/Julow) for this gift of a keyboard.
 
 Forked from [lixquid's repository](https://github.com/lixquid/app-unexpected-keyboard-layout-editor), whose live site can be viewed [here](https://unexpected-keyboard-layout-editor.lixquid.com)
 
@@ -13,14 +17,15 @@ Forked from [lixquid's repository](https://github.com/lixquid/app-unexpected-key
 3. Add keys to rows by clicking the Plus button on the right side of the row, or edit / remove existing keys by clicking on the key itself.
 4. Once you're done, click *Export to XML* to get the XML for your layout.
 
-## Development
 
-### Prerequisites
+# Development
+
+## Prerequisites
 
 - [Node.js](https://nodejs.org/)
 - [Yarn](https://yarnpkg.com/)
 
-### Getting Started
+## Getting Started
 
 1. Clone the repository
 2. Install dependencies: `yarn install`
@@ -29,7 +34,7 @@ Forked from [lixquid's repository](https://github.com/lixquid/app-unexpected-key
 
 Changes to the source files will be automatically reloaded in the browser.
 
-### Building for Production
+## Building for Production
 
 1. Remove the `dist` folder: `rm -rf dist`
 2. Build the project: `yarn build`
